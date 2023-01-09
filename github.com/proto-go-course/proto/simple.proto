@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package example.simple;
+
+option go_package = "github.com/Clement-Jean/proto-go-course/proto";
+
+message Simple {
+  uint32 id = 1;
+  bool is_simple = 2;
+  string name = 3;
+  repeated int32 sample_lists = 4;
+}
+
+message City {
+  string name = 1;
+  string zip_code = 2;
+  string country_name = 3;
+
+  message Street {
+    string name = 1;
+    City city = 2;
+
+    message Building {
+      string name = 1;
+      uint32 number = 2;
+      Street street = 3;
+    }
+  }
+}
+
+message Address {
+  City city = 1;
+  City.Street street = 2;
+  City.Street.Building building = 3;
+}
