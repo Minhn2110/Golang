@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-resty/resty/v2"
 	"github.com/gorilla/mux"
+	"github.com/spf13/viper"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +49,15 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	viper.SetDefault("ContentDir", "content")
+	viper.SetDefault("LayoutDir", "layouts")
+	viper.SetDefault("Taxonomies", map[string]string{"tag": "tags", "category": "categories"})
+
+	a := viper.AllSettings()
+	b, _ := json.Marshal(a)
+
+	fmt.Printf(string(b))
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8000", r))
